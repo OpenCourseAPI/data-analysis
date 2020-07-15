@@ -7,7 +7,7 @@ import pandas as pd
 import altair as alt
 # import tinydb
 
-ROOT = "../livescripts/"
+ROOT = './'
 TERM_CODES = {
     'Foothill: Summer 2020': '202111',
     'De Anza: Summer 2020': '202112',
@@ -17,7 +17,7 @@ TERM_CODES = {
 
 @st.cache(allow_output_mutation=True)
 def connectDB(term):
-    # TODO: check safety of multi-thread
+    # TODO: check thread safety
     conn = sqlite3.connect(f'{ROOT}db/temp_{term}.sqlite3', check_same_thread=False)
     c = conn.cursor()
     return c
@@ -32,6 +32,16 @@ def getAllClasses(c):
             COUNT(case status when "Open" then 1 else null end) as open,
             COUNT(case status when "Waitlist" then 1 else null end) as wait,
             COUNT(case status when "Full" then 1 else null end) as full
+        FROM classes
+        GROUP BY time;
+    """).fetchall()
+
+@st.cache(allow_output_mutation=True, hash_funcs={sqlite3.Cursor:id})
+def getTotalClasses(c):
+    return c.execute("""
+        SELECT
+            time,
+            COUNT(CRN)
         FROM classes
         GROUP BY time;
     """).fetchall()
@@ -79,6 +89,15 @@ df = pd.DataFrame(
 )
 st.area_chart(df)
 
+total_classes = getTotalClasses(c)
+st.subheader('Total Class Count By Time')
+df = pd.DataFrame(
+    [x[1:] for x in total_classes],
+    index=[dt(x[0]) for x in total_classes],
+    columns = ['Classes']
+)
+st.line_chart(df)
+
 st.subheader('View Course History')
 # dept = st.text_input('Department', 'CS')
 # course = st.text_input('Course / Section', '1A')
@@ -98,4 +117,5 @@ st.markdown("""
 
 Try changing the term above, or check back again later!
 
-Or, head over to [opencourse.dev](https://opencourse.dev).""")
+Or, head over to [opencourse.dev](https://opencourse.dev).
+""")
