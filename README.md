@@ -4,11 +4,11 @@
 ## Prerequisites
 
 - Python 3.7, `pip`, and `pipenv`
-- A happy mood
+- Energy to start hacking 🚀
 
 ## Get Started
 
-Install `pipenv` if you haven't already:
+Install [`pipenv`](https://pypi.org/project/pipenv/) if you haven't already:
 
 ```bash
 pip install pipenv
@@ -16,31 +16,32 @@ pip install pipenv
 pip3 install pipenv
 ```
 
-Clone this repo and install its dependencies:
+Clone [LiveMyPortalData](https://github.com/OpenCourseAPI/LiveMyPortalData.git) and this repo, and install its dependencies:
 
 ```bash
 mkdir opencourse
 cd opencourse
 
+git clone https://github.com/OpenCourseAPI/LiveMyPortalData.git
 git clone https://github.com/OpenCourseAPI/DataAnalysis.git
-cd DataAnalysis
 
-pipenv install # this will take time
+cd DataAnalysis
+pipenv install # this may take some time
 ```
 
-> Note: it is recommended to create a folder such as `opencourse` and clone these repos in that folder for better organization and usability.
+> Note: it is recommended to create a folder such as `opencourse` and clone these repos in that folder, for better organization and usability of the repos.
 
 ## Launch
 
-Run the following:
+Run the following in your terminal:
 
 ```bash
-pipenv run streamlit run app.py
+pipenv run cli start
 ```
 
 You should see something like:
 
-```sh
+```
 You can now view your Streamlit app in your browser.
 
   Local URL: http://localhost:8501
@@ -48,3 +49,29 @@ You can now view your Streamlit app in your browser.
 ```
 
 Navigate to the URL specified in your browser and enjoy!
+
+## Advanced
+
+### Manually creating SQLite DBs
+
+To manually generate `db/<term>.sqlite3` files, run the following:
+
+```bash
+pipenv run cli generate [--term Fall2020] [OPTIONS]
+```
+
+For more information, use:
+
+```bash
+pipenv run cli generate --help
+```
+
+## Contributing
+
+We welcome all contributions! Have an idea or found a bug? Open an issue or PR!
+
+_More info will follow, but in the meantime, get started by running the app as described above._
+
+## License
+
+The code in this repo is licensed under the MIT license.
