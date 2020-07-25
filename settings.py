@@ -1,13 +1,16 @@
-from colors import Colors
-
-# [parse_live_data.py]
+# [generate_db.py]
 #   Conversion from time-series data stored in git history
 #   to sqlite db files
 
+LIVE_DATA_ROOT = '../LiveMyPortalData/data/'
+
 class Config:
-    data_root = '../LiveMyPortalData/data/'
-    interval_time = 60
+    interval_time = 10
     full_reset = True
+
+    def __init__(self, interval_time = 10, full_reset = True):
+        self.interval_time = interval_time
+        self.full_reset = full_reset
 
 class Settings:
     start_sha = None
@@ -16,7 +19,7 @@ class Settings:
     term_codes = None
     term_colors = None
 
-    def __init__(self, term_codes, start_sha = None, end_sha = None, snapshot_sha = None, term_colors = [Colors.CBEIGE2, Colors.CYELLOW2]):
+    def __init__(self, term_codes, start_sha = None, end_sha = None, snapshot_sha = None, term_colors = ['cyan', 'yellow']):
         self.term_codes = term_codes
         self.term_colors = term_colors
         self.start_sha = start_sha
@@ -26,9 +29,9 @@ class Settings:
 Summer2020 = Settings(
     term_codes={'fh': '202111', 'da': '202112'},
     start_sha=None,
-    end_sha='2f0fe2d87d60312e0d8f745486ac1642095a3322',
-    # The following SHA has lots of courses deleted
+    # The following commented SHA has lots of courses deleted
     # end_sha='5237c91feacf45068eb1aad3ee2a6c3dd2574815'
+    end_sha='2f0fe2d87d60312e0d8f745486ac1642095a3322',
     snapshot_sha='030a30c4856c4c5a93aba77830a3b91a238ba5a8'
 )
 

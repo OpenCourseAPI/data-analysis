@@ -13,3 +13,7 @@ matplotlib = "*"
 
 [requires]
 python_version = "3.7"
+
+[scripts]
+cli = "python cli.py"
+app = "streamlit run app.py"
