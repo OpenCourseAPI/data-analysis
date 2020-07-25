@@ -10,6 +10,9 @@ streamlit = "*"
 pandas = "*"
 tinydb = "*"
 matplotlib = "*"
+requests = "*"
+numpy = "*"
+click = "*"
 
 [requires]
 python_version = "3.7"
