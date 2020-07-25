@@ -341,4 +341,4 @@ def setup_cmd(ctx, name=None):
 
 if __name__ == '__main__':
     cmd = setup_cmd(click)
-    cmd()
+    cmd() # pylint: disable=no-value-for-parameter

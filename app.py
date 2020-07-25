@@ -1,3 +1,7 @@
+# pylint: disable=E1120
+# See: https://github.com/streamlit/streamlit/issues/1536
+# See: https://discuss.streamlit.io/t/error-no-value-for-argument-body-in-method-call-vs-code/1851/6
+
 import os
 import time
 import json
@@ -284,6 +288,7 @@ if page == 'Home':
 
     # crs = get_one_class(c, dept, course)
     crs = get_one_class_by_crn(c, crn)
+
     if crs and len(crs) > 0:
         df = pd.DataFrame(
             [x[3:5] for x in crs],
@@ -291,6 +296,7 @@ if page == 'Home':
             columns=['Seats', 'Wait Seats']
         )
         st.line_chart(df)
+
     else:
         'CRN not found! Available CRN:'
         # ', '.join([str(x[0]) for x in get_available_crn(c)])
