@@ -154,7 +154,7 @@ class GitHistoryConverter:
             self.term_index = i
             self.parse_term(term)
 
-        print_info('That is it for now!')
+        print_info('Data converter has finished!')
 
     def setup_db(self, term: str):
         conn = sqlite3.connect(f'db/temp_{term}.sqlite3')
@@ -327,7 +327,7 @@ def setup_cmd(ctx, name=None):
     @ctx.command(name)
     @click.option('--term', '-t', type=choices, default=DEFAULT_TERM,
                   metavar='<quarter><year>', help='The term to generate data for, such as "Fall2020"')
-    @click.option('--interval-time', '-i', type=click.IntRange(1, 60), default=60,
+    @click.option('--interval-time', '-i', type=click.IntRange(5, 60), default=60,
                   metavar='<minutes>', help='The interval to generate time-series data')
     @click.option('--skip-reset', is_flag=True, default=False,
                   help='Only add new data to existing DBs')

@@ -57,7 +57,7 @@ Navigate to the URL specified in your browser and enjoy!
 To manually generate `db/<term>.sqlite3` files, run the following:
 
 ```bash
-pipenv run cli generate [--term Fall2020] [OPTIONS]
+pipenv run cli generate [--term Fall2020] [--interval-time 60] [OPTIONS]
 ```
 
 For more information, use:
@@ -68,7 +68,7 @@ pipenv run cli generate --help
 
 ## Contributing
 
-We welcome all contributions! Have an idea or found a bug? Open an issue or PR!
+We welcome all contributions! Have an idea or found a bug? Feel free to open an issue or a PR.
 
 _More info will follow, but in the meantime, get started by running the app as described above._
 
