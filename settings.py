@@ -38,5 +38,17 @@ Summer2020 = Settings(
 Fall2020 = Settings(
     term_codes={'fh': '202121', 'da': '202122'},
     start_sha='88860f841a62752789960b7c729749a28d896d3b',
+    end_sha='caba60a62f595c825862d12423bac5b29af2fd5d'
+)
+
+Winter2021 = Settings(
+    term_codes={'fh': '202131', 'da': '202132'},
+    start_sha='06a4a8fdcfebba3bbe73d38993643770bc479f65',
     end_sha=None
 )
+
+TERM_CODES_TO_CONFIG = {
+    term: config
+    for config in [Summer2020, Fall2020, Winter2021]
+    for term in config.term_codes.values()
+}

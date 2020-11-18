@@ -15,7 +15,7 @@ import altair as alt
 import requests
 
 from generate_db import GitHistoryConverter
-from settings import Config, Summer2020, Fall2020
+from settings import Config, TERM_CODES_TO_CONFIG
 
 #
 # Data and term configuration
@@ -23,16 +23,12 @@ from settings import Config, Summer2020, Fall2020
 
 ROOT = './'
 TERM_CODES = {
-    'Foothill: Summer 2020': '202111',
-    'De Anza: Summer 2020' : '202112',
-    'Foothill: Fall 2020'  : '202121',
-    'De Anza: Fall 2020'   : '202122',
-}
-TERM_CODES_TO_CONFIG = {
-    '202111': Summer2020,
-    '202112': Summer2020,
-    '202121': Fall2020,
-    '202122': Fall2020,
+    'Foothill, Winter 2021' : '202131',
+    'De Anza, Winter 2021'  : '202132',
+    'Foothill, Fall 2020'   : '202121',
+    'De Anza, Fall 2020'    : '202122',
+    'Foothill, Summer 2020' : '202111',
+    'De Anza, Summer 2020'  : '202112',
 }
 
 # Workaround for a timezone bug in streamlit
@@ -135,8 +131,9 @@ def get_available_crn(c):
     return c.execute('SELECT DISTINCT CRN FROM classes;').fetchall()
 
 # TODO: hash
-def get_one_class(c, dept, course):
-    return c.execute('SELECT * FROM classes WHERE dept = ? and section = ?', [dept, course]).fetchall()
+# NOTE: this does not currently work beause we do not store dept, course, and section
+def get_one_class(c, dept, course, section):
+    return c.execute('SELECT * FROM classes WHERE dept = ? and course = ? and section = ?', [dept, course, section]).fetchall()
 
 # TODO: hash
 def get_one_class_by_crn(c, crn):
@@ -172,7 +169,8 @@ if page == 'Home':
     term = st.sidebar.selectbox(
         'Choose a term: ', list(TERM_CODES.keys())
     )
-    show_debug_info = st.sidebar.checkbox('Show debug information')
+    term_config = TERM_CODES_TO_CONFIG[TERM_CODES[term]]
+    # show_debug_info = st.sidebar.checkbox('Show debug information')
     show_advanced_options = st.sidebar.checkbox('Show advanced options')
 
     # Data generation options
@@ -183,10 +181,10 @@ if page == 'Home':
         interval = st.sidebar.slider('Interval time (in minutes)', value=60, min_value=5, max_value=60, step=5)
 
     if st.sidebar.button('Update'):
-        generate_data(Fall2020, interval, False)
+        generate_data(term_config, interval, False)
 
     if st.sidebar.button('Regenerate'):
-        generate_data(Fall2020, interval, True)
+        generate_data(term_config, interval, True)
 
     # Main Page Content
 
@@ -195,28 +193,29 @@ if page == 'Home':
 
     # Generate data if necessary
     if not data_exists(c):
-        generate_data(TERM_CODES_TO_CONFIG[TERM_CODES[term]], interval, True)
+        generate_data(term_config, interval, True)
 
     # Get all class data aggregated by time
     class_data = get_all_classes(c)
     times = [dt(x[0]) for x in class_data]
     # total_times = countTimes(c)[0]
 
-    if show_debug_info:
-        l = len(class_data)
-        start_date = l and class_data[0][0]
-        end_index = (l - 1) or 0
-        end_date = l and class_data[end_index][0]
+    l = len(class_data)
+    start_date = l and class_data[0][0]
+    end_index = (l - 1) or 0
+    end_date = l and class_data[end_index][0]
 
-        f'''
-        ### Debug Info
+    f'''
+    ## {term}
 
-        ```
-        Term  - {term}
-        Start - {dt(start_date).strftime('%b %d, %Y %I:%M %p')}
-        End   - {dt(end_date).strftime('%b %d, %Y %I:%M %p')}
-        ```
-        '''
+    Selected term data info:
+
+    | Term   | (selected term) |
+    | ---   | --- |
+    | Start | {dt(start_date).strftime('%b %d, %Y %I:%M %p')} |
+    | End   | {dt(end_date).strftime('%b %d, %Y %I:%M %p')} |
+
+    '''
 
     '''
     ## All Classes
@@ -283,10 +282,11 @@ if page == 'Home':
     '''
 
     # dept = st.text_input('Department', 'CS')
-    # course = st.text_input('Course / Section', '1A')
-    crn = st.text_input('Enter a CRN', 10152)
+    # course = st.text_input('Course', '1A')
+    # section = st.text_input('Section', '1Z')
+    # crs = get_one_class(c, dept, course, section)
 
-    # crs = get_one_class(c, dept, course)
+    crn = st.text_input('Enter a CRN', 10152)
     crs = get_one_class_by_crn(c, crn)
 
     if crs and len(crs) > 0:
@@ -315,13 +315,13 @@ if page == 'Home':
 # Owl API (playground, etc.)
 if page == 'API':
     '''
-    # Owl API
-    ### More at [opencourse.dev](https://opencourse.dev)
+    # Owl API [deprecated]
+    ### More at [opencourse.dev:3000](https://opencourse.dev:3000)
 
     ## Playground
     '''
 
-    PREFIX = 'https://opencourse.dev'
+    PREFIX = 'https://opencourse.dev:3000'
     endpoint = st.text_input('Enter an API url:', value='/fh/single?dept=CS&course=1A')
 
     response = requests.get(PREFIX + endpoint)
