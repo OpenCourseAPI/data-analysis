@@ -90,4 +90,4 @@ We welcome all contributions! Have an idea or found a bug? Feel free to open an 
 
 ## License
 
-The code in this repo is licensed under the [MIT license](LICENSE.md).
+The [MIT license](LICENSE)
