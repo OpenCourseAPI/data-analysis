@@ -45,10 +45,10 @@ You should see something like:
 You can now view your Streamlit app in your browser.
 
   Local URL: http://localhost:8501
-  Network URL: http://192.168.1.10:8501
+  Network URL: http://192.168.1.XX:8501
 ```
 
-Navigate to the URL specified in your browser and enjoy!
+Navigate to the specified URL in your browser and enjoy!
 
 ## Advanced
 
@@ -66,12 +66,28 @@ For more information, use:
 pipenv run cli generate --help
 ```
 
+### Dump SQLite DB to CSV
+
+To convert an SQLite DB file into CSV format, run the following:
+
+```bash
+pipenv run cli to_csv SRC_FILE [DEST_FILE]
+
+# Examples:
+pipenv run cli to_csv db/temp_202131.sqlite3 # will generate db/temp_202131.csv
+pipenv run cli to_csv db/temp_202131.sqlite3 dump.csv # specify custom file
+```
+
+For more information, use:
+
+```bash
+pipenv run cli to_csv --help
+```
+
 ## Contributing
 
 We welcome all contributions! Have an idea or found a bug? Feel free to open an issue or a PR.
 
-_More info will follow, but in the meantime, get started by running the app as described above._
-
 ## License
 
-The code in this repo is licensed under the MIT license.
+The code in this repo is licensed under the [MIT license](LICENSE.md).
