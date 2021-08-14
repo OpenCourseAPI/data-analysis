@@ -16,16 +16,16 @@ pip install pipenv
 pip3 install pipenv
 ```
 
-Clone [LiveMyPortalData](https://github.com/OpenCourseAPI/LiveMyPortalData.git) and this repo, and install its dependencies:
+Clone [live-fhda-class-data](https://github.com/OpenCourseAPI/live-fhda-class-data) and this repo, and install its dependencies:
 
 ```bash
 mkdir opencourse
 cd opencourse
 
-git clone https://github.com/OpenCourseAPI/LiveMyPortalData.git
-git clone https://github.com/OpenCourseAPI/DataAnalysis.git
+git clone https://github.com/OpenCourseAPI/live-fhda-class-data.git
+git clone https://github.com/OpenCourseAPI/data-analysis.git
 
-cd DataAnalysis
+cd data-analysis
 pipenv install # this may take some time
 ```
 

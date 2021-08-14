@@ -2,7 +2,7 @@
 #   Conversion from time-series data stored in git history
 #   to sqlite db files
 
-LIVE_DATA_ROOT = '../LiveMyPortalData/data/'
+LIVE_DATA_ROOT = '../live-fhda-class-data/data/'
 
 class Config:
     interval_time = 10
